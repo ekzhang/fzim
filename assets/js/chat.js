@@ -1,37 +1,40 @@
-var addMessage = function(message) {
-  var text = '<b>' + message.sender + ': </b>' + message.message;
-  $('#message-container').append('<div class="message">' + text + '</div>');
-};
 
-var sendMessage = function(message) {
-  // console.log('Sending message: ', message);
-  io.socket.post('/message', message);
-};
+angular.module('fzim', [])
+.controller('ChatCtrl', ['$scope', function($scope) {
+  // debugging
+  window.ChatCtrl = $scope;
 
-io.socket.on('connect', function() {
-  io.socket.get('/message', {}, function(messages) {
-    messages.forEach(function(message) {
-      addMessage(message);
+  $scope.messages = [];
+  $scope.inputMessage = '';
+
+  io.socket.on('connect', function() {
+    io.socket.get('/message', {}, function(messages) {
+      messages.forEach(function(message) {
+        $scope.messages.push(message);
+      });
+      $scope.$apply();
+    });
+
+    io.socket.on('message', function(data) {
+      console.log('Got message', data);
+      var message = data.data;
+      $scope.messages.push(message);
+      $scope.$apply();
     });
   });
 
-  io.socket.on('message', function(data) {
-    var message = data.data;
-    addMessage(message);
-  });
-});
+  $scope.sendMessage = function() {
+    if (!$scope.inputMessage) return;
+    var msg = { sender: 'Anonymous', message: $scope.inputMessage };
+    io.socket.post('/message', msg);
+    $scope.messages.push(msg);
+    $scope.inputMessage = '';
+  };
 
-$(document).ready(function() {
-  $('#input-message').keydown(function(event){
+  $scope.inputKeyDown = function(event) {
     if (event.keyCode == 13) {
-      $('#input-button').click();
+      $scope.sendMessage();
     }
-  });
+  };
 
-  $('#input-button').click(function() {
-    var msg = { sender: 'Anonymous', message: $('#input-message')[0].value };
-    sendMessage(msg);
-    addMessage(msg);
-    $('#input-message')[0].value = '';
-  });
-});
+}]);

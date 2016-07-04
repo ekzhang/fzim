@@ -5,25 +5,40 @@
 <head>
   <title>fz-im Chat Room</title>
 
-  <script src="http://code.jquery.com/jquery-3.0.0.min.js"
-     integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0="
-     crossorigin="anonymous"></script>
+  <!-- bootstrap stuff -->
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+  <!-- Our styling -->
+  <link rel="stylesheet" href="/styles/main.css">
+
+  <!-- AngularJS 1 -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+  <!-- Sails.io.js -->
   <script src="/js/dependencies/sails.io.js"></script>
+  <!-- main script -->
   <script src="/js/chat.js"></script>
 </head>
 
-<body>
+<body ng-app="fzim">
   <h2>fz-im Chat Room</h2>
 
-  <div id="message-container">
-    <div class="message"><b>Moderator: </b>Welcome to the chat room! </div>
-  </div>
+  <div class="main-content" ng-controller="ChatCtrl">
+    <div id="message-container">
+      <div class="message" ng-repeat="message in messages">
+        <b>{{message.sender}}: </b>{{message.message}}
+      </div>
+    </div>
 
-  <br>
+    <br>
 
-  <div id="input-form">
-    <input type="text" id="input-message">
-    <button id="input-button">Submit</button>
+    <div id="input-form">
+      <input type="text" id="input-message" ng-model="inputMessage"
+             ng-keydown="inputKeyDown($event)">
+      <button id="input-button" ng-click="sendMessage()">Submit</button>
+    </div>
   </div>
 </body>
 
