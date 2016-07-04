@@ -2,14 +2,15 @@
 angular.module('fzim', [])
 .controller('ChatCtrl', ['$scope', '$timeout', function($scope, $timeout) {
   // debugging
-  window.ChatCtrl = $scope;
+  window.SCOPE = $scope;
 
   $scope.messages = [];
   $scope.inputMessage = '';
   $scope.username = 'Anonymous';
 
   io.socket.on('connect', function() {
-    io.socket.get('/message?limit=200&sort=createdAt%20DESC', {}, function(messages) {
+    io.socket.get('/message?limit=200&sort=createdAt%20DESC&channel=' + $scope.channel, {},
+    function(messages) {
       messages.reverse();
       messages.forEach(function(message) {
         $scope.addMessage(message);
@@ -20,6 +21,9 @@ angular.module('fzim', [])
     io.socket.on('message', function(data) {
       // console.log('Got message', data);
       var message = data.data;
+      if (message.channel != $scope.channel) {
+        return;
+      }
       $scope.addMessage(message);
       $scope.$apply();
     });
@@ -39,7 +43,11 @@ angular.module('fzim', [])
     if (!username) {
       username = 'Anonymous';
     }
-    var msg = { sender: username, message: $scope.inputMessage };
+    var msg = {
+      sender: username,
+      message: $scope.inputMessage,
+      channel: $scope.channel
+    };
     io.socket.post('/message', msg);
     $scope.addMessage(msg);
     $scope.inputMessage = '';

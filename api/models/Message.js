@@ -10,8 +10,7 @@ module.exports = {
   attributes: {
 
     sender : { type: 'string' },
-
-    message : { type: 'string' }
+    message : { type: 'string' },
+    channel : { type: 'string' }
   }
 };
-
