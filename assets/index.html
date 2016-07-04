@@ -3,17 +3,27 @@
 <html>
 
 <head>
-  
+  <title>fz-im Chat Room</title>
+
+  <script src="http://code.jquery.com/jquery-3.0.0.min.js"
+     integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0="
+     crossorigin="anonymous"></script>
+  <script src="/js/dependencies/sails.io.js"></script>
+  <script src="/js/chat.js"></script>
 </head>
 
 <body>
   <h2>fz-im Chat Room</h2>
-  <div id="messages">
-    <div class="message">Welcome to the chat room! </div>
+
+  <div id="message-container">
+    <div class="message"><b>Moderator: </b>Welcome to the chat room! </div>
   </div>
+
+  <br>
+
   <div id="input-form">
-    <input type="text" id="input_message">
-    <button id="input_button">Submit</button>
+    <input type="text" id="input-message">
+    <button id="input-button">Submit</button>
   </div>
 </body>
 
