@@ -58,7 +58,7 @@ module.exports.connections = {
   ***************************************************************************/
   sailsMongoDBServer: {
     adapter: 'sails-mongo',
-    url: 'mongodb://admin:passwordissecret@ds011775.mlab.com:11775/fzim-db'
+    url: process.env.MONGOLAB_URI
   },
 
   /***************************************************************************
