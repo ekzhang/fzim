@@ -5,6 +5,8 @@
 <head>
   <title>fz-im Chat Room</title>
 
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <!-- bootstrap stuff -->
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -23,21 +25,33 @@
 </head>
 
 <body ng-app="fzim">
-  <h2>fz-im Chat Room</h2>
+  <div class="container">
+    <h2>fz-im Chat Room</h2>
 
-  <div class="main-content" ng-controller="ChatCtrl">
-    <div id="message-container">
-      <div class="message" ng-repeat="message in messages">
-        <b>{{message.sender}}: </b>{{message.message}}
+    <div class="main-content" ng-controller="ChatCtrl">
+      <div id="message-container">
+        <div class="message" ng-repeat="message in messages">
+          <b>{{message.sender}}: </b>{{message.message}}
+        </div>
       </div>
-    </div>
 
-    <br>
+      <div id="input-form">
+        <div class="form-group col-xs-9" style="padding: 0">
+          <input type="text" id="input-message" ng-model="inputMessage"
+                 ng-keydown="inputKeyDown($event)" class="form-control">
+        </div>
+        <button id="input-button" class="col-xs-3 btn btn-default"
+                ng-click="sendMessage()">
+          Submit
+        </button>
+      </div>
 
-    <div id="input-form">
-      <input type="text" id="input-message" ng-model="inputMessage"
-             ng-keydown="inputKeyDown($event)">
-      <button id="input-button" ng-click="sendMessage()">Submit</button>
+      <div id="username-form" class="col-xs-12">
+        <label for="username-input" style="display: inline-block">Set Username</label>
+          <input id="username-input" type="text" class="form-control"
+                 ng-model="username">
+      </div>
+
     </div>
   </div>
 </body>
