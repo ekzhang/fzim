@@ -58,11 +58,11 @@ module.exports.connections = {
   ***************************************************************************/
   sailsMongoDBServer: {
     adapter: 'sails-mongo',
-    host: 'localhost',
-    port: 27017,
-    // user: 'username', //optional
-    // password: 'password', //optional
-    database: 'fzim_db' //optional
+    host: 'ds011775.mlab.com',
+    port: 11775,
+    user: 'admin',
+    password: 'nXTYrA+9?(CK;~(.hy}vvd.GLYy~S6Dll7hi|$^j^|^F+PpHK`+[E55[~uzMYw9J',
+    database: 'fzim-db' //optional
   },
 
   /***************************************************************************
