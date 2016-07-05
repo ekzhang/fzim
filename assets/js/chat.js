@@ -20,12 +20,13 @@ angular.module('fzim', [])
 
     io.socket.on('message', function(data) {
       // console.log('Got message', data);
-      var message = data.data;
-      if (message.channel != $scope.channel) {
-        return;
+      if (data.verb === 'created') {
+        var message = data.data;
+        if (message.channel != $scope.channel)
+          return;
+        $scope.addMessage(message);
+        $scope.$apply();
       }
-      $scope.addMessage(message);
-      $scope.$apply();
     });
   });
 
