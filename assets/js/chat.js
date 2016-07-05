@@ -59,4 +59,11 @@ angular.module('fzim', [])
     }
   };
 
+  $scope.changeChannel = function() {
+    var newChannel = prompt('Which channel do you want to switch to?');
+    if (newChannel) {
+      location.href = '/_channel/' + newChannel;
+    }
+  };
+
 }]);
