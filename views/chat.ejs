@@ -1,0 +1,32 @@
+<div ng-app="fzim" ng-controller="ChatCtrl" class="container">
+  <h2>fz-im Chat Room</h2>
+  <h4>Channel:
+    <span ng-bind="channel" ng-init="channel='<%= channel_id %>'" ng-click="changeChannel()"></span>
+  </h4>
+
+  <div class="main-content">
+    <div id="message-container">
+      <div class="message" ng-repeat="message in messages">
+        <b>{{message.sender}}: </b>{{message.message}}
+      </div>
+    </div>
+
+    <div id="input-form">
+      <div class="form-group col-xs-9" style="padding: 0">
+        <input type="text" id="input-message" ng-model="inputMessage"
+               ng-keydown="inputKeyDown($event)" class="form-control">
+      </div>
+      <button id="input-button" class="col-xs-3 btn btn-default"
+              ng-click="sendMessage()">
+        Submit
+      </button>
+    </div>
+
+    <div id="username-form" class="col-xs-12">
+      <label for="username-input" style="display: inline-block">Set Username</label>
+        <input id="username-input" type="text" class="form-control"
+               ng-model="username">
+    </div>
+
+  </div>
+</div>
