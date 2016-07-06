@@ -6,7 +6,6 @@ angular.module('fzim', [])
 
   $scope.messages = [];
   $scope.inputMessage = '';
-  $scope.nickname = 'Anonymous';
 
   io.socket.on('connect', function() {
     io.socket.get('/message?limit=200&sort=createdAt%20DESC&channel=' + $scope.channel, {},
@@ -33,19 +32,17 @@ angular.module('fzim', [])
   $scope.addMessage = function(msg) {
     $scope.messages.push(msg);
     $timeout(function() {
-      var scroller = document.getElementById('message-container');
+      var scroller = document.getElementsByClassName('message-container')[0];
       scroller.scrollTop = scroller.scrollHeight;
     }, 0, false);
   };
 
   $scope.sendMessage = function() {
     if (!$scope.inputMessage) return;
-    var nickname = $scope.nickname;
-    if (!nickname) {
-      nickname = 'Anonymous';
-    }
+    var name_elem = document.getElementById('username');
+    var name = name_elem ? name_elem.innerHTML : 'Anonymous';
     var msg = {
-      sender: nickname,
+      sender: name,
       message: $scope.inputMessage,
       channel: $scope.channel
     };

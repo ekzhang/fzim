@@ -48,7 +48,9 @@
           <% if (typeof user != 'undefined' && user) { %>
 
           <li>
-            <a href="#">Logged in as <b><%= user.username %></b></a>
+            <a href="#">Logged in as
+              <span id="username" style="font-weight: bold;"><%= user.username %></span>
+            </a>
           </li>
           <li>
             <a href="/logout">Logout</a>
@@ -92,7 +94,7 @@
     -->
 
     <!--TEMPLATES-->
-
+    
     <!--TEMPLATES END-->
 
 
