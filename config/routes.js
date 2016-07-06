@@ -21,10 +21,18 @@
  */
 
 module.exports.routes = {
-
+  // '/*': function(req, res, next) {
+  //   sails.log.verbose("method: ", req.method, "\n body: ", req.body, "\n url:", req.url,
+  //       "\n user:", (req.session.passport ? req.session.passport.user : undefined));
+  //   next();
+  // },
   '/': {
     controller: 'MessageController',
     action: 'toLobby'
+  },
+  '/user/me': {
+    controller: 'User2',
+    action: 'me'
   },
   '/_channel/:channel_id': {
     controller: 'MessageController',
