@@ -9,17 +9,13 @@ h2, h4 {
   text-align: center;
 }
 
-div#message-container {
+div.message-container {
   background: #F0F0F0;
   padding: 5px;
   height: 560px;
   overflow-y: scroll;
 }
 
-.btn, .form-control {
+div#input-form .btn, .form-control {
   border-radius: 0;
-}
-
-div#username-form {
-  margin-bottom: 50px;
 }

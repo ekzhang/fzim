@@ -30,9 +30,11 @@ module.exports.routes = {
     controller: 'MessageController',
     action: 'toLobby'
   },
-  '/user/me': {
-    controller: 'User2',
-    action: 'me'
+  '/register': {
+    view: 'register'
+  },
+  '/login': {
+    view: 'login'
   },
   '/_channel/:channel_id': {
     controller: 'MessageController',

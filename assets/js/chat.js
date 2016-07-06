@@ -6,7 +6,7 @@ angular.module('fzim', [])
 
   $scope.messages = [];
   $scope.inputMessage = '';
-  $scope.username = 'Anonymous';
+  $scope.nickname = 'Anonymous';
 
   io.socket.on('connect', function() {
     io.socket.get('/message?limit=200&sort=createdAt%20DESC&channel=' + $scope.channel, {},
@@ -40,12 +40,12 @@ angular.module('fzim', [])
 
   $scope.sendMessage = function() {
     if (!$scope.inputMessage) return;
-    var username = $scope.username;
-    if (!username) {
-      username = 'Anonymous';
+    var nickname = $scope.nickname;
+    if (!nickname) {
+      nickname = 'Anonymous';
     }
     var msg = {
-      sender: username,
+      sender: nickname,
       message: $scope.inputMessage,
       channel: $scope.channel
     };
