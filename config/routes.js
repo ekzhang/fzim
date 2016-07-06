@@ -31,10 +31,20 @@ module.exports.routes = {
     action: 'toLobby'
   },
   '/register': {
-    view: 'register'
+    controller: 'UserController',
+    action: 'register'
   },
   '/login': {
-    view: 'login'
+    controller: 'UserController',
+    action: 'login'
+  },
+  '/newPrivateChannel': {
+    controller: 'PrivateChannelController',
+    action: 'newPrivateChannel'
+  },
+  '/_channel/private/:channel_id': {
+    controller: 'PrivateChannelController',
+    action: 'joinPrivateChannel'
   },
   '/_channel/:channel_id': {
     controller: 'MessageController',

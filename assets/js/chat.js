@@ -2,7 +2,7 @@
 angular.module('fzim', [])
 .controller('ChatCtrl', ['$scope', '$timeout', function($scope, $timeout) {
   // debugging
-  window.SCOPE = $scope;
+  // window.SCOPE = $scope;
 
   $scope.messages = [];
   $scope.inputMessage = '';
@@ -63,5 +63,45 @@ angular.module('fzim', [])
       location.href = '/_channel/' + newChannel;
     }
   };
+}])
+.controller('CreatePrivateCtrl', ['$scope', function($scope) {
 
+  SCOPE = $scope;
+
+  $scope.createChannel = function() {
+    io.socket.get('/user/me', function(err, jwr) {
+      var user = jwr.body;
+      // console.log(user);
+      if (!user || !user.id) {
+        return window.location = '/login';
+      }
+      if (!$scope.channel_id) {
+        $scope.errorText = 'Channel ID cannot be null.';
+        $scope.$apply();
+      }
+      else {
+        io.socket.get('/privatechannel?channel=' + $scope.channel_id, {}, function(data) {
+          if (data.length != 0) {
+            $scope.errorText = 'That channel already exists.';
+            $scope.$apply();
+          }
+          else {
+            io.socket.post('/privatechannel', {
+              channel: $scope.channel_id,
+              owner: user.id,
+              members: []
+            }, function(data) {
+              if (data.owner != user.id) {
+                $scope.errorText = 'An error occured.';
+                $scope.$apply();
+              }
+              else {
+                window.location = '/_channel/private/' + $scope.channel_id;
+              }
+            });
+          }
+        });
+      }
+    });
+  };
 }]);

@@ -1,0 +1,13 @@
+<div class="container" ng-controller="CreatePrivateCtrl"
+     ng-init="channel_id=<%= (typeof req.query.channel_id == 'undefined' ? '\'\'' : req.query.channel_id) %>">
+  <h2>New Private Channel: <span ng-bind="channel_id"></span></h2>
+  <form>
+    <div class="form-group" ng-class="{ 'has-error': errorText }">
+      <label class="control-label" for="channel">Channel ID (/_channel/private/...)</label>
+      <input class="form-control" type="text" ng-model="channel_id" aria-describedby="help">
+      <span id="help" class="help-block" ng-bind="errorText"></span>
+    </div>
+
+    <button class="btn btn-default" ng-click="createChannel()">Create</button>
+  </form>
+</div>

@@ -6,20 +6,36 @@
  */
 
 module.exports = {
-	me: function(req, res) {
+  me: function(req, res) {
     if (!req.session.passport) {
-      return res.notFound('No user session.');
+      return res.json(null);
     }
     User.findOne({ id: req.session.passport.user }).exec(function(err, u) {
       if (err) {
-        return res.negotiate(err);
+        return res.json(null);
       }
       if (!u) {
-        return res.notFound('Could not find the user with that id.');
+        return res.json(null);
       }
 
       return res.json(u);
     });
+  },
+
+  register: function(req, res) {
+    UserService.getUser(req, function(err, user) {
+      if (err) return res.negotiate(err);
+      return res.view('register', { user: user });
+    });
+  },
+
+  login: function(req, res) {
+    UserService.getUser(req, function(err, user) {
+      if (err) return res.negotiate(err);
+      if (user) {
+        return res.redirect('/');
+      }
+      return res.view('login');
+    });
   }
 };
-
