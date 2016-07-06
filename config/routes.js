@@ -42,6 +42,10 @@ module.exports.routes = {
     controller: 'PrivateChannelController',
     action: 'newPrivateChannel'
   },
+  '/_channel/private/:channel_id/addUser/:username': {
+    controller: 'PrivateChannelController',
+    action: 'addUser'
+  },
   '/_channel/private/:channel_id': {
     controller: 'PrivateChannelController',
     action: 'joinPrivateChannel'

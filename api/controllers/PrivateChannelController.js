@@ -40,5 +40,29 @@ module.exports = {
         });
       });
     });
+  },
+  addUser: function(req, res) {
+    var channel_id = req.param('channel_id');
+    UserService.getUser(req, function(err, user) {
+      if (err) return res.negotiate(err);
+      if (!user) return res.redirect('/login');
+      PrivateChannel.findOne({ channel: channel_id, owner: user.id }, function(err, channelObj) {
+        if (err) return res.negotiate(err);
+        if (!channelObj) return res.badRequest('You do not own that channel.');
+        User.findOne({username: req.param('username')}).exec(function(err, otherUser) {
+          if (err) return res.negotiate(err);
+          if (!otherUser) return res.badRequest('user not found');
+
+          var members = channelObj.members;
+          if (members.indexOf(otherUser.id) === -1) {
+            members.push(otherUser.id);
+          }
+          PrivateChannel.update({ channel: channel_id }, { members: members }, function(err, resp) {
+            if (err) return res.serverError(err);
+            return res.ok(resp);
+          });
+        });
+      });
+    });
   }
 };

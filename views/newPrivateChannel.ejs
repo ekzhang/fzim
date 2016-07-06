@@ -1,5 +1,5 @@
 <div class="container" ng-controller="CreatePrivateCtrl"
-     ng-init="channel_id=<%= (typeof req.query.channel_id == 'undefined' ? '\'\'' : req.query.channel_id) %>">
+     ng-init="channel_id='<%= (typeof req.query.channel_id == 'undefined' ? '' : req.query.channel_id) %>''">
   <h2>New Private Channel: <span ng-bind="channel_id"></span></h2>
   <form>
     <div class="form-group" ng-class="{ 'has-error': errorText }">
