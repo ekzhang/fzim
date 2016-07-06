@@ -18,7 +18,7 @@ angular.module('fzim', [])
     });
 
     io.socket.on('message', function(data) {
-      // console.log('Got message', data);
+      console.log('Got message', data);
       if (data.verb === 'created') {
         var message = data.data;
         if (message.channel != $scope.channel)

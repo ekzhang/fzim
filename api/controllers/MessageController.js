@@ -19,9 +19,25 @@ module.exports = {
         sender: sender,
         message: message,
         channel: channel
-      }).exec(function(err, data) {
+      }).exec(function(err, newInstance) {
         if (err) return res.negotiate(err);
-        return res.json(data);
+
+        // If we have the pubsub hook, use the model class's publish method
+        // to notify all subscribers about the created item
+        if (req._sails.hooks.pubsub) {
+          if (req.isSocket) {
+            Message.subscribe(req, newInstance);
+            Message.introduce(newInstance);
+          }
+          // Make sure data is JSON-serializable before publishing
+          var publishData = _.isArray(newInstance) ?
+                    _.map(newInstance, function(instance) {return instance.toJSON();}) :
+                    newInstance.toJSON();
+          Message.publishCreate(publishData, !req.options.mirror && req);
+        }
+
+        // Send JSONP-friendly response if it's supported
+        res.created(newInstance);
       });
     });
   },
