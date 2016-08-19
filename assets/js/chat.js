@@ -1,8 +1,7 @@
-
 angular.module('fzim', [])
 .controller('ChatCtrl', ['$scope', '$timeout', function($scope, $timeout) {
   // debugging
-  // window.SCOPE = $scope;
+  window.SCOPE = $scope;
 
   $scope.messages = [];
   $scope.inputMessage = '';
@@ -58,10 +57,57 @@ angular.module('fzim', [])
   };
 
   $scope.changeChannel = function() {
-    var newChannel = prompt('Which channel do you want to switch to?');
-    if (newChannel) {
+    swal({
+      title: 'Change channels',
+      text: 'Which channel do you want to switch to?',
+      type: 'input',
+      showCancelButton: true,
+      closeOnConfirm: false,
+      animation: 'slide-from-top'
+    },
+    function (newChannel) {
+      if (newChannel === false) return false;
+      if (newChannel === '') {
+        swal.showInputError('You need to specify which channel you wish to switch to!');
+        return false;
+      }
+      swal('Success!', 'Currently changing channels to ' + newChannel + '...', 'success');
       location.href = '/_channel/' + newChannel;
-    }
+    });
+  };
+
+  $scope.addUser = function() {
+    swal({
+      title: 'Add a user',
+      text: 'Username of the person you want to add to the channel:',
+      type: 'input',
+      showCancelButton: true,
+      closeOnConfirm: false,
+      animation: 'slide-from-top'
+    },
+    function (inputValue) {
+      if (inputValue === false) return false;
+      if (inputValue === '') {
+        swal.showInputError('You need to include the username!');
+        return false;
+      }
+      io.socket.post('/_channel/' + $scope.channel + '/addUser',
+                     { username: inputValue }, function(resData, jwres) {
+
+        if (jwres.statusCode === 200) {
+          swal('Success!', 'User ' + inputValue + ' has been added to the channel.', 'success');
+        }
+        else {
+          if (resData) {
+            swal.showInputError(resData);
+          }
+          else {
+            swal.showInputError('There was an error with your request.');
+          }
+          return false;
+        }
+      });
+    });
   };
 }])
 .controller('CreatePrivateCtrl', ['$scope', function($scope) {

@@ -26,31 +26,31 @@ module.exports.routes = {
   //       "\n user:", (req.session.passport ? req.session.passport.user : undefined));
   //   next();
   // },
-  '/': {
+  'GET /': {
     controller: 'MessageController',
     action: 'toLobby'
   },
-  '/register': {
+  'GET /register': {
     controller: 'UserController',
     action: 'register'
   },
-  '/login': {
+  'GET /login': {
     controller: 'UserController',
     action: 'login'
   },
-  '/newPrivateChannel': {
+  'GET /newPrivateChannel': {
     controller: 'PrivateChannelController',
     action: 'newPrivateChannel'
   },
-  '/_channel/private/:channel_id/addUser/:username': {
+  'POST /_channel/private/:channel_id/addUser': {
     controller: 'PrivateChannelController',
     action: 'addUser'
   },
-  '/_channel/private/:channel_id': {
+  'GET /_channel/private/:channel_id': {
     controller: 'PrivateChannelController',
     action: 'joinPrivateChannel'
   },
-  '/_channel/:channel_id': {
+  'GET /_channel/:channel_id': {
     controller: 'MessageController',
     action: 'joinChannel'
   }

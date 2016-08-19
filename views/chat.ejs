@@ -3,11 +3,17 @@
   <h4>Channel:
     <span ng-bind="channel" ng-init="channel='<%= channel_id %>'" ng-click="changeChannel()"></span>
   </h4>
+  <% if (typeof isPrivateOwner != 'undefined' && isPrivateOwner) { %>
+  <button style="display:block;margin:10px auto;"
+          class="btn btn-default"
+          ng-click="addUser()">Add User</button>
+  <% } %>
 
   <div class="main-content">
     <div class="message-container">
       <div class="message" ng-repeat="message in messages">
-        <b>{{message.sender}}: </b>{{message.message}}
+        <span class="username" ng-bind="message.sender + ':'"></span>
+        <span ng-bind="message.message"></span>
       </div>
     </div>
 
@@ -22,5 +28,8 @@
       </button>
     </div>
 
+<!--     <ul class="user-list">
+      <li class="username" ng-repeat="username in users" ng-bind="username"></li>
+    </ul> -->
   </div>
 </div>

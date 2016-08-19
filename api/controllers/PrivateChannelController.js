@@ -36,12 +36,14 @@ module.exports = {
         res.view('chat', {
           channel_id: 'private/' + channel_id,
           title: 'fz-im Chat Room: ' + channel_id,
-          user: user
+          user: user,
+          isPrivateOwner: (user.id === resp.owner)
         });
       });
     });
   },
   addUser: function(req, res) {
+    // sails.log.info(req.body);
     var channel_id = req.param('channel_id');
     UserService.getUser(req, function(err, user) {
       if (err) return res.negotiate(err);
@@ -49,9 +51,10 @@ module.exports = {
       PrivateChannel.findOne({ channel: channel_id, owner: user.id }, function(err, channelObj) {
         if (err) return res.negotiate(err);
         if (!channelObj) return res.badRequest('You do not own that channel.');
-        User.findOne({username: req.param('username')}).exec(function(err, otherUser) {
+        var username = req.param('username');
+        User.findOne({username: username}).exec(function(err, otherUser) {
           if (err) return res.negotiate(err);
-          if (!otherUser) return res.badRequest('user not found');
+          if (!otherUser) return res.badRequest('User \'' + username + '\' not found');
 
           var members = channelObj.members;
           if (members.indexOf(otherUser.id) === -1) {
