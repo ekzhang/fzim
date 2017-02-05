@@ -1,3 +1,3 @@
 # fzim
 
-a [Sails](http://sailsjs.org) application
+A simple chat application running on [Sails](http://sailsjs.org).
